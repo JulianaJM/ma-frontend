@@ -1,0 +1,15 @@
+.custom-select {
+  // appearance: none;
+  background: none;
+  color: white;
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+  &:focus {
+    outline: 1px #fff dotted;
+  }
+  &:hover {
+    color: #0074e4;
+  }
+}

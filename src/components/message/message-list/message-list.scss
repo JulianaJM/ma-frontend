@@ -1,0 +1,44 @@
+.message-list {
+  background-color: #fff;
+
+  &__content {
+    cursor: pointer;
+    text-decoration: none;
+    background: none;
+    border: none;
+    display: flex;
+    text-align: initial;
+    padding: 25px 0;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+
+    .truncate {
+      width: 90vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .message-title {
+      font-size: 18px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .unread-message {
+      font-weight: bold;
+    }
+
+    .message-subject {
+      margin: 0;
+      padding: 0;
+
+      //color: #eee;
+    }
+    .message-body {
+      margin: 0;
+      padding: 0;
+      //color: #eee;
+    }
+  }
+}

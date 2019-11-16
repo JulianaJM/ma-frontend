@@ -1,0 +1,52 @@
+.App {
+  .App-content {
+    background-color: #eee;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 60px;
+
+    .list-close {
+      display: none;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .App {
+    .App-content {
+      flex-direction: row;
+      .list-close {
+        display: block;
+        flex: 1;
+        overflow-y: auto;
+        .message-list {
+          &__content {
+            .truncate {
+              width: 350px;
+            }
+          }
+        }
+      }
+      .list-open {
+        width: 100%;
+      }
+      .detail-open {
+        flex: 2;
+      }
+    }
+  }
+}

@@ -1,26 +1,163 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import classNames from "classnames";
+import MessageList from "./components/message/message-list/MessageList";
+import Message from "./components/message/message/Message";
+import Header from "./components/header/Header";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./mypro-icon.css";
+import "./App.scss";
+
+const API_PREFIX = process.env.REACT_APP_API_PREFIX;
+class App extends Component {
+  state = {
+    realtors: [],
+    realtorMessages: [],
+    messageDetails: null,
+    nbUnread: null,
+    currentRealtor: null,
+    currentMessage: null
+  };
+
+  componentDidMount() {
+    this.loadRealtors();
+  }
+
+  handleChange = id => {
+    const { messageDetails } = this.state;
+    if (messageDetails) {
+      this.handleMessageClose();
+    }
+    this.loadRealtorInfo(id);
+    this.loadRealtorMessages(id);
+    this.setState({ currentRealtor: id });
+  };
+
+  handleMessageClick = e => {
+    this.getMessage(e.currentTarget.id);
+    this.setState({ currentMessage: e.currentTarget.id });
+  };
+
+  handleMessageClose = () => {
+    this.setState({ messageDetails: null });
+  };
+
+  loadRealtors() {
+    fetch(`${API_PREFIX}/realtors`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        const realtors = Object.values(data);
+        // init
+        this.loadRealtorInfo(realtors[0].id);
+        this.loadRealtorMessages(realtors[0].id);
+        this.setState({ realtors, currentRealtor: realtors[0].id });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  loadRealtorInfo(id) {
+    fetch(`${API_PREFIX}/realtors/${id}`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState({ nbUnread: data.unread_messages });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  loadRealtorMessages(id) {
+    fetch(`${API_PREFIX}/realtors/${id}/messages`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState({ realtorMessages: data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  getMessage(id) {
+    const { realtorMessages, currentRealtor } = this.state;
+    const messageDetails = realtorMessages.find(m => m.id === Number(id));
+    this.setState({ messageDetails });
+    if (!messageDetails.read) {
+      this.updateUnread(currentRealtor, id);
+    }
+  }
+
+  updateUnread(realtorId, messageId) {
+    /* FIXME PATCH not allowed for the web client*/
+    fetch(`${API_PREFIX}/realtors/${realtorId}/messages/${messageId}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify({ read: true })
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.loadRealtorInfo(realtorId);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    const {
+      realtors,
+      realtorMessages,
+      messageDetails,
+      nbUnread,
+      currentMessage
+    } = this.state;
+    return (
+      <div className="App">
+        <Header
+          realtors={realtors}
+          onChange={this.handleChange}
+          nbUnread={nbUnread}
+        />
+        <div className="App-content">
+          <div
+            className={classNames({
+              "list-close": messageDetails,
+              "list-open": !messageDetails
+            })}
+          >
+            <MessageList
+              messages={realtorMessages}
+              onClick={this.handleMessageClick}
+              currentMessage={currentMessage}
+            />
+          </div>
+          <div
+            className={classNames({
+              "detail-open": messageDetails
+            })}
+          >
+            {messageDetails && (
+              <Message
+                message={messageDetails}
+                onClose={this.handleMessageClose}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
