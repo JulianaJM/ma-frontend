@@ -4,10 +4,12 @@ import MessageList from "./components/message/message-list/MessageList";
 import Message from "./components/message/message/Message";
 import Header from "./components/header/Header";
 
+import Realtors from "./data/db.json"
+
 import "./mypro-icon.css";
 import "./App.scss";
 
-const API_PREFIX = process.env.REACT_APP_API_PREFIX;
+// const API_PREFIX = process.env.REACT_APP_API_PREFIX;
 class App extends Component {
   state = {
     realtors: [],
@@ -39,80 +41,87 @@ class App extends Component {
 
   handleMessageClose = () => {
     this.setState({ messageDetails: null });
+    this.setState({ currentMessage: null });
+
   };
 
   loadRealtors() {
-    fetch(`${API_PREFIX}/realtors`)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        const realtors = Object.values(data);
+    // fetch(`${API_PREFIX}/realtors`)
+    //   .then(response => {
+    //     return response.json();
+    //   })
+    //   .then(data => {
+        const realtors = Object.values(Realtors);
         // init
         this.loadRealtorInfo(realtors[0].id);
         this.loadRealtorMessages(realtors[0].id);
         this.setState({ realtors, currentRealtor: realtors[0].id });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      // });
   }
 
   loadRealtorInfo(id) {
-    fetch(`${API_PREFIX}/realtors/${id}`)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
+    // fetch(`${API_PREFIX}/realtors/${id}`)
+    //   .then(response => {
+    //     return response.json();
+    //   })
+      // .then(data => {
+        const realtors = Object.values(Realtors);
+        const data = realtors.find(r => r.id === Number(id))
         this.setState({ nbUnread: data.unread_messages });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      // });
   }
 
   loadRealtorMessages(id) {
-    fetch(`${API_PREFIX}/realtors/${id}/messages`)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({ realtorMessages: data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // fetch(`${API_PREFIX}/realtors/${id}/messages`)
+    //   .then(response => {
+    //     return response.json();
+    //   })
+    //   .then(data => {
+      const realtors = Object.values(Realtors);
+      const data = realtors.find(r => r.id === Number(id))
+      // this.setState({ realtorMessages: data });
+        this.setState({ realtorMessages: data.messages });
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      // });
   }
 
   getMessage(id) {
     const { realtorMessages, currentRealtor } = this.state;
     const messageDetails = realtorMessages.find(m => m.id === Number(id));
     this.setState({ messageDetails });
-    if (!messageDetails.read) {
-      this.updateUnread(currentRealtor, id);
-    }
+    // if (!messageDetails.read) {
+    //   this.updateUnread(currentRealtor, id);
+    // }
   }
 
-  updateUnread(realtorId, messageId) {
-    /* FIXME PATCH not allowed for the web client*/
-    fetch(`${API_PREFIX}/realtors/${realtorId}/messages/${messageId}`, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: JSON.stringify({ read: true })
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.loadRealtorInfo(realtorId);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+  // updateUnread(realtorId, messageId) {
+  //   /* FIXME PATCH not allowed for the web client*/
+  //   fetch(`${API_PREFIX}/realtors/${realtorId}/messages/${messageId}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json; charset=UTF-8"
+  //     },
+  //     body: JSON.stringify({ read: true })
+  //   })
+  //     .then(response => {
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       this.loadRealtorInfo(realtorId);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
 
   render() {
     const {

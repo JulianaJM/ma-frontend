@@ -1,5 +1,12 @@
 .message-list {
   background-color: #fff;
+  height: 100vh;
+  overflow-y: auto;
+  margin:4px 0;
+
+  .active {
+    background-color:#eee;
+  }
 
   &__content {
     cursor: pointer;
@@ -9,8 +16,9 @@
     display: flex;
     text-align: initial;
     padding: 25px 0;
+    margin: 1px auto;
     border-bottom: 1px solid #eee;
-    width: 100%;
+    width: 99%;
 
     .truncate {
       width: 90vw;

@@ -34,10 +34,10 @@
 }
 .message-detail {
   display: flex;
-  height: 60vh; //100%;
-  overflow: hidden;
+  // height: 60vh; //100%;
+  // overflow: hidden;
   &__body {
-    overflow-y: auto;
+    // overflow-y: auto;
     background-color: #fff;
     border-radius: 5px;
     margin: 30px;

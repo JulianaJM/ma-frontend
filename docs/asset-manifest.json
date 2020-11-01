@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/ma-frontend/static/css/main.f69f824d.chunk.css",
+    "main.js": "/ma-frontend/static/js/main.818343ed.chunk.js",
+    "main.js.map": "/ma-frontend/static/js/main.818343ed.chunk.js.map",
+    "runtime-main.js": "/ma-frontend/static/js/runtime-main.e78507e6.js",
+    "runtime-main.js.map": "/ma-frontend/static/js/runtime-main.e78507e6.js.map",
+    "static/js/2.3afe880d.chunk.js": "/ma-frontend/static/js/2.3afe880d.chunk.js",
+    "static/js/2.3afe880d.chunk.js.map": "/ma-frontend/static/js/2.3afe880d.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.a4b4fb4581fb6356bda125fb7d1ffe3e.js": "/precache-manifest.a4b4fb4581fb6356bda125fb7d1ffe3e.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.f69f824d.chunk.css.map": "/ma-frontend/static/css/main.f69f824d.chunk.css.map",
+    "static/media/logo-meilleursagentspro-neg.61a5993f.svg": "/ma-frontend/static/media/logo-meilleursagentspro-neg.61a5993f.svg",
+    "static/media/mypro-icon.css": "/ma-frontend/static/media/mypro-icon.d38c374a.woff"
+  },
+  "entrypoints": [
+    "ma-frontend/static/js/runtime-main.e78507e6.js",
+    "ma-frontend/static/js/2.3afe880d.chunk.js",
+    "ma-frontend/static/css/main.f69f824d.chunk.css",
+    "ma-frontend/static/js/main.818343ed.chunk.js"
+  ]
+}

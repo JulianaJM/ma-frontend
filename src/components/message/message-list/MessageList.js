@@ -20,7 +20,9 @@ const MessageList = ({ messages, onClick, currentMessage }) => {
             type="button"
             key={id}
             id={id}
-            className="message-list__content"
+            className={classNames("message-list__content", {
+              "active": Number(currentMessage) === id
+            })}
             onClick={onClick}
             aria-expanded={Number(currentMessage) === id}
           >
